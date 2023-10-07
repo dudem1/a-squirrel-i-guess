@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkh3wxg5gfes1"]
+
+[ext_resource type="Script" path="res://game/checkpoint.gd" id="1_mxukh"]
+[ext_resource type="Texture2D" uid="uid://buhpw4mrjr7nm" path="res://assets/images/tiles_packed.png" id="2_en6mw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qs2j"]
+atlas = ExtResource("2_en6mw")
+region = Rect2(198, 90, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0tyy"]
+atlas = ExtResource("2_en6mw")
+region = Rect2(216, 90, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o01lk"]
+atlas = ExtResource("2_en6mw")
+region = Rect2(198, 108, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_se72p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qs2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0tyy")
+}],
+"loop": true,
+"name": &"Checked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o01lk")
+}],
+"loop": true,
+"name": &"Unchecked",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ksj8b"]
+size = Vector2(6, 18)
+
+[sub_resource type="Curve" id="Curve_xr4ck"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_g6phe"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_otglv"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Checkpoint" type="Area2D"]
+z_index = 2
+script = ExtResource("1_mxukh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_se72p")
+animation = &"Unchecked"
+autoplay = "Checked"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6, -9)
+shape = SubResource("RectangleShape2D_ksj8b")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-6, -9)
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 3.0
+gravity = Vector2(0, 0)
+angular_velocity_min = 720.0
+angular_velocity_max = 720.0
+scale_amount_min = 100.0
+scale_amount_max = 100.0
+split_scale = true
+scale_curve_x = SubResource("Curve_xr4ck")
+scale_curve_y = SubResource("Curve_g6phe")
+color_ramp = SubResource("Gradient_otglv")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5v5w5cirelyy"]
+
+[ext_resource type="Texture2D" uid="uid://buhpw4mrjr7nm" path="res://assets/images/tiles_packed.png" id="1_ckl4k"]
+[ext_resource type="Script" path="res://game/coin_counter.gd" id="1_vcxiq"]
+[ext_resource type="LabelSettings" uid="uid://cjubchgmsnfw4" path="res://game/label_settings.tres" id="3_wwadp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vaj3"]
+atlas = ExtResource("1_ckl4k")
+region = Rect2(198, 126, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1t1i"]
+atlas = ExtResource("1_ckl4k")
+region = Rect2(216, 126, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rq4pc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vaj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1t1i")
+}],
+"loop": true,
+"name": &"Rotate",
+"speed": 5.0
+}]
+
+[node name="CoinCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vcxiq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(9, 9)
+sprite_frames = SubResource("SpriteFrames_rq4pc")
+animation = &"Rotate"
+autoplay = "Rotate"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_right = 35.0
+offset_bottom = 20.0
+label_settings = ExtResource("3_wwadp")

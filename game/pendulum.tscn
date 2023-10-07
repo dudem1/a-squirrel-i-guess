@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dym0c6n1xtaqy"]
+
+[ext_resource type="Texture2D" uid="uid://byra5oyommu86" path="res://assets/images/tilemap_packed.png" id="1_55a7l"]
+[ext_resource type="Script" path="res://game/pendulum.gd" id="1_c1dsa"]
+[ext_resource type="Texture2D" uid="uid://buhpw4mrjr7nm" path="res://assets/images/tiles_packed.png" id="2_c1lmc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vo1ji"]
+size = Vector2(36, 17)
+
+[node name="Pendulum" type="CharacterBody2D"]
+script = ExtResource("1_c1dsa")
+
+[node name="Lano" type="Sprite2D" parent="."]
+position = Vector2(0, 27)
+texture = ExtResource("2_c1lmc")
+region_enabled = true
+region_rect = Rect2(164, 54, 14, 54)
+
+[node name="Podlaha" type="Sprite2D" parent="."]
+position = Vector2(0, 60)
+texture = ExtResource("1_55a7l")
+region_enabled = true
+region_rect = Rect2(126, 0, 36, 18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 60.5)
+shape = SubResource("RectangleShape2D_vo1ji")

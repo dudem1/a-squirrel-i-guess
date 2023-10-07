@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://br3b2nsl0gxd4"]
+
+[ext_resource type="Texture2D" uid="uid://buhpw4mrjr7nm" path="res://assets/images/tiles_packed.png" id="1_8wq3q"]
+[ext_resource type="Script" path="res://game/spring.gd" id="1_u2j5c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s65ql"]
+atlas = ExtResource("1_8wq3q")
+region = Rect2(144, 90, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8o6d"]
+atlas = ExtResource("1_8wq3q")
+region = Rect2(126, 90, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vhqis"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s65ql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8o6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s65ql")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vk0dm"]
+size = Vector2(16, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8bqhi"]
+size = Vector2(16, 1)
+
+[node name="Spring" type="StaticBody2D"]
+script = ExtResource("1_u2j5c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_vhqis")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_vk0dm")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_8bqhi")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

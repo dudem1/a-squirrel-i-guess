@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dunt6rq0jompf"]
+
+[ext_resource type="Script" path="res://game/enemies/falling_enemy.gd" id="1_amy2b"]
+[ext_resource type="Texture2D" uid="uid://bj0v6f2lkfert" path="res://assets/images/characters_packed.png" id="1_qgkut"]
+[ext_resource type="PackedScene" uid="uid://c7swxvp3t6l0m" path="res://game/hitbox.tscn" id="2_pjpcv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tkld7"]
+size = Vector2(14, 16)
+
+[sub_resource type="Gradient" id="Gradient_qvwte"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fofkv"]
+size = Vector2(14, 72)
+
+[node name="FallingEnemy" type="Node2D"]
+z_index = 1
+script = ExtResource("1_amy2b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("1_qgkut")
+hframes = 2
+region_enabled = true
+region_rect = Rect2(96, 27, 48, 18)
+
+[node name="Hitbox" parent="." instance=ExtResource("2_pjpcv")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_tkld7")
+
+[node name="RayCast2D_ground" type="RayCast2D" parent="."]
+position = Vector2(0, -9)
+target_position = Vector2(0, 9)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(9, 4)
+direction = Vector2(0, -1)
+gravity = Vector2(0, 2)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+angle_max = 360.0
+scale_amount_max = 2.0
+color = Color(0.666667, 0.666667, 0.666667, 0.588235)
+color_ramp = SubResource("Gradient_qvwte")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 36)
+shape = SubResource("RectangleShape2D_fofkv")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://knkt36ts4t50"]
+
+[ext_resource type="Script" path="res://game/enemies/walking_enemy.gd" id="1_5brp3"]
+[ext_resource type="Texture2D" uid="uid://bj0v6f2lkfert" path="res://assets/images/characters_packed.png" id="2_2mwi7"]
+[ext_resource type="PackedScene" uid="uid://c7swxvp3t6l0m" path="res://game/hitbox.tscn" id="3_gko53"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xntk1"]
+atlas = ExtResource("2_2mwi7")
+region = Rect2(144, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pysp3"]
+atlas = ExtResource("2_2mwi7")
+region = Rect2(168, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4tpo7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xntk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pysp3")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3kcjm"]
+size = Vector2(11, 9)
+
+[node name="WalkingEnemy" type="CharacterBody2D"]
+z_index = 2
+script = ExtResource("1_5brp3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_4tpo7")
+animation = &"Walking"
+autoplay = "Walking"
+frame_progress = 0.380157
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -4.5)
+shape = SubResource("RectangleShape2D_3kcjm")
+
+[node name="RayCast2D_right" type="RayCast2D" parent="."]
+position = Vector2(5, -2)
+target_position = Vector2(4, 0)
+collide_with_areas = true
+
+[node name="RayCast2D_left" type="RayCast2D" parent="."]
+position = Vector2(-6, -2)
+target_position = Vector2(-4, 0)
+collide_with_areas = true
+
+[node name="RayCast2D_ledger_right" type="RayCast2D" parent="."]
+position = Vector2(5, -2)
+target_position = Vector2(0, 3)
+collide_with_areas = true
+
+[node name="RayCast2D_ledger_left" type="RayCast2D" parent="."]
+position = Vector2(-6, -2)
+target_position = Vector2(0, 3)
+collide_with_areas = true
+
+[node name="Hitbox" parent="." instance=ExtResource("3_gko53")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(-6, 0, -10, -2, -8, -10, -6, -12, -4, -12, -4, -15, -2, -18, 1, -18, 3, -15, 3, -12, 5, -12, 7, -10, 9, -2, 5, 0)

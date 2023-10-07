@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://73gyuppb8y0c"]
+
+[ext_resource type="Script" path="res://game/enemies/big_enemy.gd" id="1_uqcr5"]
+[ext_resource type="Texture2D" uid="uid://bj0v6f2lkfert" path="res://assets/images/characters_packed.png" id="2_7uia0"]
+[ext_resource type="PackedScene" uid="uid://c7swxvp3t6l0m" path="res://game/hitbox.tscn" id="3_p68nx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wx8k"]
+atlas = ExtResource("2_7uia0")
+region = Rect2(120, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1ht1"]
+atlas = ExtResource("2_7uia0")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2yq7"]
+atlas = ExtResource("2_7uia0")
+region = Rect2(96, 48, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmf36"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wx8k")
+}],
+"loop": true,
+"name": &"Sleep",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1ht1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2yq7")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3kcjm"]
+size = Vector2(20, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j7701"]
+size = Vector2(24, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6c2b"]
+size = Vector2(22, 22)
+
+[node name="BigEnemy" type="CharacterBody2D"]
+z_index = 2
+script = ExtResource("1_uqcr5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_tmf36")
+animation = &"Walking"
+autoplay = "Sleep"
+frame_progress = 0.633565
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_3kcjm")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_p68nx")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_j7701")
+
+[node name="Area2D_wakeup" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_wakeup"]
+position = Vector2(-1, -11)
+shape = SubResource("RectangleShape2D_h6c2b")
+
+[connection signal="body_entered" from="Area2D_wakeup" to="." method="_on_area_2d_wakeup_body_entered"]
